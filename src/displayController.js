@@ -41,6 +41,7 @@ function DisplayController(){
             const projectTitle = projectNameInput.value;
             const project = appController.addProject(projectTitle); // Pass data to the backend logic
             appController.setCurrentProject(project); //set newly created project as current project
+            setCurrentProjectTitle(); //Changes the current project title
             renderProjects(); // Re-render the UI to show the new project
             projectNameInput.value = ""; //Refresh the inputs
             projectModal.close(); // Close the dialog
@@ -60,18 +61,6 @@ function DisplayController(){
 
             todoModal.showModal();
         });
-
-        //Handles the current project title at the header
-        function setCurrentProjectTitle(){
-            const currentProjectTitle = document.addEventListener("#current-project-title");
-            const currentProject = appController.getCurrentProject();
-
-            if(currentProject === null){
-                currentProjectTitle.innerText = "Select a project"
-            }else{
-                currentProjectTitle.innertext = currentProject.getProjectTitle();
-            }
-        }
 
         // Handles saving a new todo item
         addTodoButton.addEventListener("click", () => {
@@ -103,6 +92,18 @@ function DisplayController(){
         closeTodoModalButton.addEventListener("click", () => {
             todoModal.close();
         });
+    }
+
+    //Handles the current project title at the header
+    function setCurrentProjectTitle(){
+        const currentProjectTitle = document.querySelector("#current-project-title");
+        const currentProject = appController.getCurrentProject();
+
+        if(currentProject === null){
+            currentProjectTitle.innerText = "Select a project"
+        }else{
+            currentProjectTitle.innerText = currentProject.getProjectTitle();
+        }
     }
 
     // Helper function to convert raw date and time inputs into an ISO 8601 formatted string
@@ -152,7 +153,6 @@ function DisplayController(){
 
     // Clears the sidebar and rebuilds the HTML for the projects list
     function renderProjects(){
-        setCurrentProjectTitle();
         projectsList.innerHTML = ""; // Wipe the current UI list
         const projects = appController.getProjects(); // Fetch the latest data array
         
@@ -171,6 +171,7 @@ function DisplayController(){
             // Allow clicking the project item to set it as active and render its specific todos
             projectItem.addEventListener("click", () => {
                 appController.setCurrentProject(project);
+                setCurrentProjectTitle();
                 renderTodos();
             });
 
@@ -184,6 +185,7 @@ function DisplayController(){
                 }else if(appController.getCurrentProject() === project){
                     appController.setCurrentProject(projects[0]);
                 }
+                setCurrentProjectTitle();
                 renderProjects();
                 renderTodos();
             });
