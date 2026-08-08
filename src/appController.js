@@ -12,6 +12,7 @@ function AppController(){
     function addProject(projectTitle){
         const project = Project(projectTitle);
         projects.push(project);
+        return project;
     }
 
     // Finds a project by its unique ID and removes it from the projects array

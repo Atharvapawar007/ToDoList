@@ -1,397 +1,667 @@
-/* =========================================
-   1. CSS VARIABLES (THEME)
-   ========================================= */
+/* =========================================================================
+   TODO APP — STYLESHEET
+   A quiet, ledger-inspired workspace: cool paper surfaces, a single
+   confident accent, and a serif wordmark for the one place personality
+   belongs. Everything else stays disciplined so the work stays legible.
+   ========================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap');
+
+/* =========================================================================
+   1. DESIGN TOKENS
+   ========================================================================= */
 :root {
-  /* Colors */
-  --primary-color: #4f46e5; /* Modern Indigo */
-  --primary-hover: #4338ca;
-  --danger-color: #ef4444;
-  --danger-hover: #dc2626;
-  
-  /* Priority Colors */
-  --priority-low: #10b981; /* Emerald Green */
-  --priority-medium: #f59e0b; /* Amber */
-  --priority-high: #ef4444; /* Red */
+  /* --- Type --- */
+  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Backgrounds & Borders */
-  --bg-main: #f8fafc;
-  --bg-sidebar: #f1f5f9;
-  --bg-surface: #ffffff;
-  --border-color: #e2e8f0;
+  /* --- Ink (text) --- */
+  --ink-900: #161A21;   /* primary text */
+  --ink-600: #545C6A;   /* secondary text */
+  --ink-400: #8F97A3;   /* tertiary / placeholder */
+  --ink-on-accent: #F5F7FC;
 
-  /* Text Colors */
-  --text-main: #0f172a;
-  --text-muted: #64748b;
+  /* --- Surfaces --- */
+  --paper: #F5F6F8;         /* app background */
+  --surface: #FFFFFF;       /* cards, dialogs */
+  --surface-sunken: #ECEEF2; /* sidebar */
+  --surface-hover: #E4E7EC;
 
-  /* Shadows & Radii */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* --- Line --- */
+  --line: #E1E4EA;
+  --line-strong: #CBD0D9;
+
+  /* --- Accent (single, deliberate) --- */
+  --accent: #33499C;        /* signal blue — primary actions, focus, active */
+  --accent-hover: #293C80;
+  --accent-tint: #E9ECF8;   /* pale wash for active/selected rows */
+
+  /* --- Semantic: priority --- */
+  --priority-low: #2F9E44;
+  --priority-low-tint: #E9F7EC;
+  --priority-medium: #C87D0E;
+  --priority-medium-tint: #FBF0DF;
+  --priority-high: #D5354A;
+  --priority-high-tint: #FBE7EA;
+
+  /* --- Danger --- */
+  --danger: #D5354A;
+  --danger-hover: #B22B3E;
+
+  /* --- Elevation --- */
+  --shadow-sm: 0 1px 2px rgba(22, 26, 33, 0.06);
+  --shadow-md: 0 8px 24px -8px rgba(22, 26, 33, 0.18);
+  --shadow-modal: 0 24px 60px -12px rgba(22, 26, 33, 0.35);
+
+  /* --- Radius --- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* --- Space (4px scale) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* --- Motion --- */
+  --ease: cubic-bezier(0.2, 0.65, 0.4, 1);
+  --duration: 160ms;
 }
 
-/* =========================================
-   2. RESET & BASE STYLES
-   ========================================= */
-/* Josh Comeau CSS Reset */
-/* 1. Use a more-intuitive box-sizing model */
+/* =========================================================================
+   2. RESET & BASE
+   ========================================================================= */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* 2. Remove default margin */
 *:not(dialog) {
   margin: 0;
 }
 
-/* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
   html {
     interpolate-size: allow-keywords;
   }
 }
 
-body {
-  /* 4. Increase line-height */
-  line-height: 1.5;
-  /* 5. Improve text rendering */
-  -webkit-font-smoothing: antialiased;
-}
-
-/* 6. Improve media defaults */
 img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
 }
 
-/* 7. Inherit fonts for form controls */
 input, button, textarea, select {
   font: inherit;
+  color: inherit;
 }
 
-/* 8. Avoid text overflows */
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
 
-/* 9. Improve line wrapping */
-p {
-  text-wrap: pretty;
-}
-h1, h2, h3, h4, h5, h6 {
-  text-wrap: balance;
-}
+p { text-wrap: pretty; }
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; }
 
-/* 10. Create a root stacking context */
 #root, #__next {
   isolation: isolate;
 }
 
+html {
+  color-scheme: light;
+}
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: var(--text-main);
-  background-color: var(--bg-main);
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--ink-900);
+  background-color: var(--paper);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow: hidden; /* Prevents whole-page scrolling */
+  overflow: hidden;
 }
 
 ul {
   list-style: none;
 }
 
-/* =========================================
-   3. APP LAYOUT (GRID)
-   ========================================= */
+/* Consistent, visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* =========================================================================
+   3. APP LAYOUT
+   ========================================================================= */
 #container {
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 272px 1fr;
   grid-template-rows: 64px 1fr;
 }
 
 #header {
   grid-column: 1 / -1;
-  background-color: var(--bg-surface);
-  border-bottom: 1px solid var(--border-color);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
-  padding: 0 2rem;
-  box-shadow: var(--shadow-sm);
-  z-index: 10; /* Keeps shadow above content */
+  padding: 0 var(--space-5);
 }
 
 #header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  color: var(--ink-900);
 }
 
 #sidebar {
-  background-color: var(--bg-sidebar);
-  border-right: 1px solid var(--border-color);
+  background-color: var(--surface-sunken);
+  border-right: 1px solid var(--line);
   overflow-y: auto;
-  padding: 1.5rem 1rem;
+  padding: var(--space-5) var(--space-3);
 }
 
 #content {
-  background-color: var(--bg-main);
+  background-color: var(--paper);
   overflow-y: auto;
-  padding: 2rem;
+  padding: var(--space-6);
 }
 
-/* =========================================
+/* =========================================================================
    4. SECTION HEADERS
-   ========================================= */
-.sidebar-header, .content-header {
+   ========================================================================= */
+.sidebar-header,
+.content-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: var(--space-4);
+  gap: var(--space-3);
+}
+
+.sidebar-header {
+  padding: 0 var(--space-2);
 }
 
 .sidebar-header h2 {
-  font-size: 1.1rem;
-  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-400);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .content-header h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.625rem;
+  font-weight: 500;
+  color: var(--ink-900);
 }
 
-/* =========================================
+/* =========================================================================
    5. PROJECTS LIST (SIDEBAR)
-   ========================================= */
+   ========================================================================= */
 #projects-list {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 2px;
 }
 
-#projects-list li {
+/* Empty state — written in the interface's voice, no JS required */
+#projects-list:empty::after {
+  content: "No projects yet — add one to get started.";
+  display: block;
+  padding: var(--space-3) var(--space-2);
+  font-size: 0.8125rem;
+  color: var(--ink-400);
+  line-height: 1.5;
+}
+
+.project-item {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  padding-left: calc(var(--space-3) + 3px);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--duration) var(--ease);
+}
+
+/* Accent tab that reveals on hover/active — the sidebar's one signature move */
+.project-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  border-radius: var(--radius-pill);
+  background-color: var(--accent);
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: opacity var(--duration) var(--ease), transform var(--duration) var(--ease);
+}
+
+.project-item:hover {
+  background-color: var(--surface-hover);
+}
+
+.project-item:hover::before {
+  opacity: 0.45;
+  transform: scaleY(1);
+}
+
+.project-item:active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.project-title {
+  font-size: 0.9rem;
   font-weight: 500;
+  color: var(--ink-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-#projects-list li:hover {
-  background-color: #e2e8f0;
+.delete-project-button {
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--ink-400);
+  font-size: 1.1rem;
+  line-height: 1;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease), background-color var(--duration) var(--ease), color var(--duration) var(--ease);
 }
 
-/* =========================================
+.project-item:hover .delete-project-button,
+.delete-project-button:focus-visible {
+  opacity: 1;
+}
+
+.delete-project-button:hover {
+  background-color: var(--surface);
+  color: var(--danger);
+}
+
+/* =========================================================================
    6. TODO LIST (CONTENT)
-   ========================================= */
+   ========================================================================= */
 #todos-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--space-2);
+}
+
+#todos-list:empty::after {
+  content: "Nothing on the list yet. Add a task to fill this in.";
+  display: block;
+  padding: var(--space-5);
+  text-align: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+  color: var(--ink-400);
+  font-size: 0.875rem;
 }
 
 .todo-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--bg-surface);
-  padding: 1rem 1.25rem;
+  gap: var(--space-3);
+  background-color: var(--surface);
+  padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
-  border-left: 6px solid var(--border-color); /* Default priority border */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid var(--line);
+  transition: box-shadow var(--duration) var(--ease), transform var(--duration) var(--ease), border-color var(--duration) var(--ease);
 }
 
 .todo-item:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
 }
 
-/* Internal Todo Layout */
-.todo-left, .todo-right {
+.todo-left,
+.todo-right {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-3);
+  min-width: 0;
 }
 
 .todo-title {
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  color: var(--ink-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .todo-checkbox {
-  width: 1.2rem;
-  height: 1.2rem;
+  appearance: none;
+  flex-shrink: 0;
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 5px;
   cursor: pointer;
-  accent-color: var(--primary-color);
+  display: grid;
+  place-content: center;
+  transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.todo-checkbox::before {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  background-color: var(--ink-on-accent);
+  transform: scale(0);
+  transition: transform var(--duration) var(--ease);
+}
+
+.todo-checkbox:checked {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.todo-checkbox:checked::before {
+  transform: scale(1);
+}
+
+.todo-checkbox:hover {
+  border-color: var(--accent);
 }
 
 .todo-deadline {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  background-color: var(--bg-sidebar);
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px; /* Perfect pill shape */
-  font-weight: 500;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  color: var(--ink-600);
+  background-color: var(--paper);
+  border: 1px solid var(--line);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
 }
 
-/* Priority Colors */
-.todo-item.priority-low { border-left-color: var(--priority-low); }
-.todo-item.priority-medium { border-left-color: var(--priority-medium); }
-.todo-item.priority-high { border-left-color: var(--priority-high); }
+.delete-todo-button {
+  flex-shrink: 0;
+  background: transparent;
+  color: var(--ink-400);
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+}
 
-/* =========================================
+.delete-todo-button:hover {
+  background-color: var(--priority-high-tint);
+  color: var(--danger);
+}
+
+/* --- Priority: a small labelled dot beats a heavy colored bar --- */
+.todo-item {
+  position: relative;
+  padding-left: calc(var(--space-4) + 14px);
+}
+
+.todo-item::before {
+  content: "";
+  position: absolute;
+  left: var(--space-4);
+  top: 50%;
+  translate: 0 -50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--line-strong);
+}
+
+.todo-item.priority-low::before { background-color: var(--priority-low); }
+.todo-item.priority-medium::before { background-color: var(--priority-medium); }
+.todo-item.priority-high::before { background-color: var(--priority-high); }
+
+/* =========================================================================
    7. BUTTONS
-   ========================================= */
+   ========================================================================= */
 button {
   font-family: inherit;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: var(--radius-md);
+  background-color: var(--accent);
+  color: var(--ink-on-accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
   padding: 0.5rem 1rem;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease), transform var(--duration) var(--ease);
 }
 
 button:hover {
-  background-color: var(--primary-hover);
+  background-color: var(--accent-hover);
 }
 
-/* Icon Buttons (Add & Delete) */
-#show-project-modal-button,
-.delete-project-btn,
-.delete-todo-btn {
+button:active {
+  transform: translateY(1px);
+}
+
+#show-project-modal-button {
   background: transparent;
-  color: var(--text-muted);
-  font-size: 1.25rem;
-  padding: 0.2rem 0.5rem;
+  color: var(--ink-600);
+  border: 1px solid var(--line-strong);
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font-size: 1rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
 }
 
 #show-project-modal-button:hover {
-  background-color: #cbd5e1;
-  color: var(--text-main);
+  background-color: var(--surface);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.delete-project-btn:hover, 
-.delete-todo-btn:hover {
-  background: transparent;
-  color: var(--danger-color);
-}
-
-/* =========================================
+/* =========================================================================
    8. MODALS & FORMS
-   ========================================= */
+   ========================================================================= */
 dialog {
-  margin: auto; /* Centers the dialog */
-  padding: 2rem;
+  margin: auto;
+  padding: var(--space-6);
   border: none;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-modal);
   width: 100%;
-  max-width: 450px;
-  background-color: var(--bg-surface);
-  color: var(--text-main);
+  max-width: 420px;
+  background-color: var(--surface);
+  color: var(--ink-900);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog {
+    animation: modal-in var(--duration) var(--ease);
+  }
+
+  dialog::backdrop {
+    animation: backdrop-in var(--duration) var(--ease);
+  }
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 dialog::backdrop {
-  background-color: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(2px); /* Modern blur effect */
+  background-color: rgba(22, 26, 33, 0.45);
+  backdrop-filter: blur(3px);
 }
 
 dialog h3 {
-  margin-bottom: 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 1.25rem;
+  margin-bottom: var(--space-5);
+  color: var(--ink-900);
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  margin-bottom: 1.25rem;
+  gap: var(--space-1);
+  margin-bottom: var(--space-4);
 }
 
 .form-group label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-600);
 }
 
-.form-group input, 
+.form-group input,
 .form-group select {
-  padding: 0.6rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  font-size: 1rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
   font-family: inherit;
-  transition: border-color 0.2s ease;
+  background-color: var(--surface);
+  transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
 }
 
-.form-group input:focus, 
+.form-group input:hover,
+.form-group select:hover {
+  border-color: var(--ink-400);
+}
+
+.form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); /* Soft focus ring */
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-tint);
 }
 
 .modal-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }
 
-#close-project-modal-button, 
+#close-project-modal-button,
 #close-todo-modal-button {
   background-color: transparent;
-  color: var(--text-muted);
-  border: 1px solid var(--border-color);
+  color: var(--ink-600);
+  border: 1px solid var(--line-strong);
 }
 
-#close-project-modal-button:hover, 
+#close-project-modal-button:hover,
 #close-todo-modal-button:hover {
-  background-color: var(--bg-sidebar);
-  color: var(--text-main);
+  background-color: var(--paper);
+  color: var(--ink-900);
+  border-color: var(--ink-400);
 }
 
-/* =========================================
-   CUSTOM SCROLLBARS
-   ========================================= */
-
-/* For Firefox */
+/* =========================================================================
+   9. SCROLLBARS
+   ========================================================================= */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #cbd5e1 transparent;
+  scrollbar-color: var(--line-strong) transparent;
 }
 
-/* For WebKit Browsers (Chrome, Edge, Safari) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* Keeps the track invisible */
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1; /* Subtle slate color */
-  border-radius: 10px; /* Perfectly rounded ends */
-  border: 2px solid transparent; /* Adds padding around the thumb */
+  background-color: var(--line-strong);
+  border-radius: 10px;
+  border: 2px solid transparent;
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--text-muted); /* Darkens slightly when hovered */
+  background-color: var(--ink-400);
+}
+
+/* =========================================================================
+   10. RESPONSIVE — collapse to a single column on small screens
+   ========================================================================= */
+@media (max-width: 720px) {
+  #container {
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px auto 1fr;
+  }
+
+  #sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    padding: var(--space-3);
+    max-height: 40vh;
+  }
+
+  #content {
+    padding: var(--space-4);
+  }
+
+  #header {
+    padding: 0 var(--space-4);
+  }
+
+  .content-header h2 {
+    font-size: 1.375rem;
+  }
 }

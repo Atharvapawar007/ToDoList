@@ -23,7 +23,7 @@
                 <!-- JS will inject project items here. Example template:
                 <li class="project-item">
                     <span class="project-title">Fitness Goals</span>
-                    <button class="delete-project-btn" title="Delete Project">&times;</button>
+                    <button class="delete-project-button" title="Delete Project">&times;</button>
                 </li>
                 -->
             </ul>
@@ -44,7 +44,7 @@
                     </div>
                     <div class="todo-right">
                         <span class="todo-deadline">Aug 15, 2026</span>
-                        <button class="delete-todo-btn" title="Delete Todo">&times;</button>
+                        <button class="delete-todo-button" title="Delete Todo">&times;</button>
                     </div>
                 </li>
                 -->
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
                 <label for="todo-priority-input">Priority:</label>
-                <select id="todo-priority-input">
+                <select id="todo-priority-input" required>
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
@@ -85,11 +85,11 @@
             </div>
             <div class="form-group">
                 <label for="todo-deadline-date-input">Deadline Date:</label>
-                <input type="date" id="todo-deadline-date-input">
+                <input type="date" id="todo-deadline-date-input" required>
             </div>
             <div class="form-group">
                 <label for="todo-deadline-time-input">Deadline Time:</label>
-                <input type="time" id="todo-deadline-time-input">
+                <input type="time" id="todo-deadline-time-input" required>
             </div>
             <div class="modal-buttons">
                 <button type="button" id="close-todo-modal-button">Cancel</button>

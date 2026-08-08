@@ -38,6 +38,10 @@ function Todo(title, priority, deadline){
         isTodoDone = true;
     }
 
+    function setTodoUndone(){
+        isTodoDone = false;
+    }
+
     return {
         getTodoID,
         getTodoTitle,
@@ -47,7 +51,8 @@ function Todo(title, priority, deadline){
         getTodoDeadline,
         setTodoDeadline,
         isDone,
-        setTodoDone
+        setTodoDone,
+        setTodoUndone
     }
 }
 
