@@ -1,0 +1,396 @@
+/* =========================================
+   1. CSS VARIABLES (THEME)
+   ========================================= */
+:root {
+  /* Colors */
+  --primary-color: #4f46e5; /* Modern Indigo */
+  --primary-hover: #4338ca;
+  --danger-color: #ef4444;
+  --danger-hover: #dc2626;
+  
+  /* Priority Colors */
+  --priority-low: #10b981; /* Emerald Green */
+  --priority-medium: #f59e0b; /* Amber */
+  --priority-high: #ef4444; /* Red */
+
+  /* Backgrounds & Borders */
+  --bg-main: #f8fafc;
+  --bg-sidebar: #f1f5f9;
+  --bg-surface: #ffffff;
+  --border-color: #e2e8f0;
+
+  /* Text Colors */
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+
+  /* Shadows & Radii */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+/* =========================================
+   2. RESET & BASE STYLES
+   ========================================= */
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+*:not(dialog) {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Increase line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* 10. Create a root stacking context */
+#root, #__next {
+  isolation: isolate;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* Prevents whole-page scrolling */
+}
+
+ul {
+  list-style: none;
+}
+
+/* =========================================
+   3. APP LAYOUT (GRID)
+   ========================================= */
+#container {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: 64px 1fr;
+}
+
+#header {
+  grid-column: 1 / -1;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  box-shadow: var(--shadow-sm);
+  z-index: 10; /* Keeps shadow above content */
+}
+
+#header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+#sidebar {
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  padding: 1.5rem 1rem;
+}
+
+#content {
+  background-color: var(--bg-main);
+  overflow-y: auto;
+  padding: 2rem;
+}
+
+/* =========================================
+   4. SECTION HEADERS
+   ========================================= */
+.sidebar-header, .content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-header h2 {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.content-header h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* =========================================
+   5. PROJECTS LIST (SIDEBAR)
+   ========================================= */
+#projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+#projects-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: 500;
+}
+
+#projects-list li:hover {
+  background-color: #e2e8f0;
+}
+
+/* =========================================
+   6. TODO LIST (CONTENT)
+   ========================================= */
+#todos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-surface);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  border-left: 6px solid var(--border-color); /* Default priority border */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.todo-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Internal Todo Layout */
+.todo-left, .todo-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.todo-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.todo-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+}
+
+.todo-deadline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  background-color: var(--bg-sidebar);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px; /* Perfect pill shape */
+  font-weight: 500;
+}
+
+/* Priority Colors */
+.todo-item.priority-low { border-left-color: var(--priority-low); }
+.todo-item.priority-medium { border-left-color: var(--priority-medium); }
+.todo-item.priority-high { border-left-color: var(--priority-high); }
+
+/* =========================================
+   7. BUTTONS
+   ========================================= */
+button {
+  font-family: inherit;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+/* Icon Buttons (Add & Delete) */
+#show-project-modal-button,
+.delete-project-btn,
+.delete-todo-btn {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#show-project-modal-button:hover {
+  background-color: #cbd5e1;
+  color: var(--text-main);
+}
+
+.delete-project-btn:hover, 
+.delete-todo-btn:hover {
+  background: transparent;
+  color: var(--danger-color);
+}
+
+/* =========================================
+   8. MODALS & FORMS
+   ========================================= */
+dialog {
+  margin: auto; /* Centers the dialog */
+  padding: 2rem;
+  border: none;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 450px;
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+}
+
+dialog::backdrop {
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px); /* Modern blur effect */
+}
+
+dialog h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.form-group input, 
+.form-group select {
+  padding: 0.6rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); /* Soft focus ring */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+#close-project-modal-button, 
+#close-todo-modal-button {
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+#close-project-modal-button:hover, 
+#close-todo-modal-button:hover {
+  background-color: var(--bg-sidebar);
+  color: var(--text-main);
+}
+
+/* =========================================
+   CUSTOM SCROLLBARS
+   ========================================= */
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+/* For WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Keeps the track invisible */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; /* Subtle slate color */
+  border-radius: 10px; /* Perfectly rounded ends */
+  border: 2px solid transparent; /* Adds padding around the thumb */
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted); /* Darkens slightly when hovered */
+}

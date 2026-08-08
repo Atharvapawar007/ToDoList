@@ -1,24 +1,36 @@
-// webpack.config.js
-import path from "node:path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+console.log("Using webpack config");
 
-export default {
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
   mode: "development",
+
   entry: "./src/index.js",
+
   output: {
     filename: "main.js",
-    path: path.resolve(import.meta.dirname, "dist"),
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
-  devtool: "eval-source-map",
-  devServer: {
-    watchFiles: ["./src/template.html"],
+
+  watchOptions: {
+    poll: 1000,
+    ignored: /node_modules/,
   },
+
+  devServer: {
+    static: "./dist",
+    open: true,
+    hot: true,
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/template.html",
     }),
   ],
+
   module: {
     rules: [
       {
@@ -26,11 +38,7 @@ export default {
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.html$/i,
-        use: ["html-loader"],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpe?g|gif|svg|webp|avif|bmp|ico|tiff?)$/i,
         type: "asset/resource",
       },
     ],

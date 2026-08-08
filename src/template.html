@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+            <h1>My Todo App</h1>
+        </div>
+
+        <!-- Sidebar: Projects -->
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h2>Projects</h2>
+                <button id="show-project-modal-button">+</button>
+            </div>
+            <ul id="projects-list">
+                <!-- JS will inject project items here. Example template:
+                <li class="project-item">
+                    <span class="project-title">Fitness Goals</span>
+                    <button class="delete-project-btn" title="Delete Project">&times;</button>
+                </li>
+                -->
+            </ul>
+        </div>
+
+        <!-- Content: Todos -->
+        <div id="content">
+            <div class="content-header">
+                <h2 id="current-project-title">Current Project</h2>
+                <button id="show-todo-modal-button">Add Todo</button>
+            </div>
+            <ul id="todos-list">
+                <!-- JS will inject todo items here. Example template:
+                <li class="todo-item priority-high">
+                    <div class="todo-left">
+                        <input type="checkbox" class="todo-checkbox">
+                        <span class="todo-title">Buy groceries</span>
+                    </div>
+                    <div class="todo-right">
+                        <span class="todo-deadline">Aug 15, 2026</span>
+                        <button class="delete-todo-btn" title="Delete Todo">&times;</button>
+                    </div>
+                </li>
+                -->
+            </ul>
+        </div>
+    </div>
+
+    <!-- Project Modal -->
+    <dialog id="project-modal">
+        <form method="dialog">
+            <h3>Add New Project</h3>
+            <div class="form-group">
+                <label for="project-name-input">Project Name:</label>
+                <input type="text" id="project-name-input" required>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="close-project-modal-button">Cancel</button>
+                <button type="button" id="add-project-button">Add Project</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Todo Modal -->
+    <dialog id="todo-modal">
+        <form method="dialog">
+            <h3>Add New Todo</h3>
+            <div class="form-group">
+                <label for="todo-name-input">Title:</label>
+                <input type="text" id="todo-name-input" required>
+            </div>
+            <div class="form-group">
+                <label for="todo-priority-input">Priority:</label>
+                <select id="todo-priority-input">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="todo-deadline-date-input">Deadline Date:</label>
+                <input type="date" id="todo-deadline-date-input">
+            </div>
+            <div class="form-group">
+                <label for="todo-deadline-time-input">Deadline Time:</label>
+                <input type="time" id="todo-deadline-time-input">
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="close-todo-modal-button">Cancel</button>
+                <button type="button" id="add-todo-button">Add Todo</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>

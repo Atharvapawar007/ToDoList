@@ -1,6 +1,6 @@
 import Project from "./project";
 
-function appController(){
+function AppController(){
     const projects = [];
     let currentProject = null;
 
@@ -34,4 +34,4 @@ function appController(){
     }
 }
 
-export default appController;
+export default AppController;
