@@ -30,12 +30,18 @@ function Project(title){
         }
     }
 
+    function getTodos(){
+        const newTodos = todos.map(a => a);
+        return newTodos;
+    }
+
     return {
         getProjectID,
         getProjectTitle,
         setProjectTitle,
         addTodo,
-        deleteTodo
+        deleteTodo,
+        getTodos
     }
 }
 

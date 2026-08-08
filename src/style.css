@@ -33,6 +33,7 @@
 /* =========================================
    2. RESET & BASE STYLES
    ========================================= */
+/* Josh Comeau CSS Reset */
 /* 1. Use a more-intuitive box-sizing model */
 *, *::before, *::after {
   box-sizing: border-box;
