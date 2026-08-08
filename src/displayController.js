@@ -61,6 +61,18 @@ function DisplayController(){
             todoModal.showModal();
         });
 
+        //Handles the current project title at the header
+        function setCurrentProjectTitle(){
+            const currentProjectTitle = document.addEventListener("#current-project-title");
+            const currentProject = appController.getCurrentProject();
+
+            if(currentProject === null){
+                currentProjectTitle.innerText = "Select a project"
+            }else{
+                currentProjectTitle.innertext = currentProject.getProjectTitle();
+            }
+        }
+
         // Handles saving a new todo item
         addTodoButton.addEventListener("click", () => {
             const currentProject = appController.getCurrentProject();
@@ -95,7 +107,7 @@ function DisplayController(){
 
     // Helper function to convert raw date and time inputs into an ISO 8601 formatted string
     // Helper function to convert raw date and time inputs into a readable string
-function convertToDeadline(date, time) {
+    function convertToDeadline(date, time) {
         // If no date is provided, we can't have a deadline. Return null.
         if (!date) {
             return null;
@@ -140,6 +152,7 @@ function convertToDeadline(date, time) {
 
     // Clears the sidebar and rebuilds the HTML for the projects list
     function renderProjects(){
+        setCurrentProjectTitle();
         projectsList.innerHTML = ""; // Wipe the current UI list
         const projects = appController.getProjects(); // Fetch the latest data array
         
@@ -168,6 +181,8 @@ function convertToDeadline(date, time) {
                 const projects = appController.getProjects();
                 if(projects.length === 0){
                     appController.setCurrentProject(null);
+                }else if(appController.getCurrentProject() === project){
+                    appController.setCurrentProject(projects[0]);
                 }
                 renderProjects();
                 renderTodos();
