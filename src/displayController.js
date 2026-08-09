@@ -49,6 +49,7 @@ function DisplayController(){
 
         // Closes the project dialog without saving
         closeProjectModalButton.addEventListener("click", () => {
+            projectNameInput.value = ""; //Refresh the inputs
             projectModal.close();
         });
 
@@ -90,6 +91,11 @@ function DisplayController(){
 
         // Closes the todo dialog without saving
         closeTodoModalButton.addEventListener("click", () => {
+            //refresh the inputs
+            todoNameInput.value = "";
+            todoPriorityInput.value = "";
+            todoDeadlineDateInput.value = "";
+            todoDeadlineTimeInput.value = "";
             todoModal.close();
         });
     }
