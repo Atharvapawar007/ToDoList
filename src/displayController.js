@@ -100,7 +100,7 @@ function DisplayController(){
         const currentProject = appController.getCurrentProject();
 
         if(currentProject === null){
-            currentProjectTitle.innerText = "Select a project"
+            currentProjectTitle.innerText = "Current Project"
         }else{
             currentProjectTitle.innerText = currentProject.getProjectTitle();
         }
@@ -177,7 +177,8 @@ function DisplayController(){
 
             //add event listener for the delete todo button
             const deleteProjectButton = projectItem.querySelector(".delete-project-button");
-            deleteProjectButton.addEventListener("click", () => {
+            deleteProjectButton.addEventListener("click", (event) => {
+                event.stopPropagation();
                 appController.deleteProject(project.getProjectID());
                 const projects = appController.getProjects();
                 if(projects.length === 0){
