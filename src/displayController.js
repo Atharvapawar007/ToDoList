@@ -78,6 +78,7 @@ function DisplayController(){
 
             // Append the new todo to the currently active project
             currentProject.addTodo(todoTitle, todoPriority, todoDeadline);
+            appController.saveState();
             renderTodos();
 
             //refresh the inputs
@@ -98,6 +99,8 @@ function DisplayController(){
             todoDeadlineTimeInput.value = "";
             todoModal.close();
         });
+
+        renderProjects();
     }
 
     //Handles the current project title at the header
@@ -237,6 +240,7 @@ function DisplayController(){
             const deleteTodoButton = todoItem.querySelector(".delete-todo-button");
             deleteTodoButton.addEventListener("click", () => {
                 currentProject.deleteTodo(todo.getTodoID());
+                appController.saveState();
                 renderTodos();
             });
 
@@ -248,6 +252,7 @@ function DisplayController(){
                 }else{
                     todo.setTodoUndone();
                 }
+                appController.saveState();
             })
             
             // Append the constructed element to the DOM

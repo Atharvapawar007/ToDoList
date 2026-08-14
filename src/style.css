@@ -225,16 +225,6 @@ ul {
   gap: 2px;
 }
 
-/* Empty state — written in the interface's voice, no JS required */
-#projects-list:empty::after {
-  content: "No projects yet — add one to get started.";
-  display: block;
-  padding: var(--space-3) var(--space-2);
-  font-size: 0.8125rem;
-  color: var(--ink-400);
-  line-height: 1.5;
-}
-
 .project-item {
   position: relative;
   display: flex;
@@ -320,17 +310,6 @@ ul {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-}
-
-#todos-list:empty::after {
-  content: "Nothing on the list yet. Add a task to fill this in.";
-  display: block;
-  padding: var(--space-5);
-  text-align: center;
-  border: 1px dashed var(--line-strong);
-  border-radius: var(--radius-md);
-  color: var(--ink-400);
-  font-size: 0.875rem;
 }
 
 .todo-item {
